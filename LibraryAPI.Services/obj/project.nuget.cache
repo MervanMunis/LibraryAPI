@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "dgSpecHash": "79Qa2CDTMBY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\LibraryAPI.Services.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\merva\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.33\\microsoft.aspnetcore.cryptography.internal.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.33\\microsoft.aspnetcore.cryptography.keyderivation.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.17\\microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\6.0.33\\microsoft.aspnetcore.identity.entityframeworkcore.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.33\\microsoft.entityframeworkcore.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.33\\microsoft.entityframeworkcore.abstractions.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.33\\microsoft.entityframeworkcore.analyzers.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.33\\microsoft.entityframeworkcore.relational.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\6.0.0\\microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.caching.memory\\6.0.1\\microsoft.extensions.caching.memory.6.0.1.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\6.0.1\\microsoft.extensions.dependencyinjection.6.0.1.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.identity.core\\6.0.33\\microsoft.extensions.identity.core.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.identity.stores\\6.0.33\\microsoft.extensions.identity.stores.6.0.33.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.logging\\6.0.0\\microsoft.extensions.logging.6.0.0.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.0\\microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.1\\system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\system.io.pipelines\\5.0.2\\system.io.pipelines.5.0.2.nupkg.sha512",
+    "C:\\Users\\merva\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

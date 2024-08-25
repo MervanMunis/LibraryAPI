@@ -1,0 +1,12 @@
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\bin\Debug\net6.0\LibraryAPI.Entities.deps.json
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\bin\Debug\net6.0\LibraryAPI.Entities.dll
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\bin\Debug\net6.0\LibraryAPI.Entities.pdb
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.csproj.AssemblyReference.cache
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.AssemblyInfoInputs.cache
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.AssemblyInfo.cs
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.csproj.CoreCompileInputs.cache
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.dll
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\refint\LibraryAPI.Entities.dll
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.pdb
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\ref\LibraryAPI.Entities.dll
