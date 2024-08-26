@@ -8,6 +8,7 @@ C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Repositories\obj\Debug\net6.0\Libra
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Repositories\obj\Debug\net6.0\LibraryAPI.Repositories.AssemblyInfoInputs.cache
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Repositories\obj\Debug\net6.0\LibraryAPI.Repositories.AssemblyInfo.cs
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Repositories\obj\Debug\net6.0\LibraryAPI.Repositories.csproj.CoreCompileInputs.cache
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Repositories\obj\Debug\net6.0\LibraryAPI.Repositories.sourcelink.json
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Repositories\obj\Debug\net6.0\LibraryA.6AD4E35B.Up2Date
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Repositories\obj\Debug\net6.0\LibraryAPI.Repositories.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Repositories\obj\Debug\net6.0\refint\LibraryAPI.Repositories.dll

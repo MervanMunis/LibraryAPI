@@ -4,6 +4,7 @@ using LibraryAPI.Entities.Enums;
 using LibraryAPI.Entities.Models;
 using LibraryAPI.Repositories.Manager;
 using LibraryAPI.Services.Abstracts;
+using LibraryAPI.Services.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,19 +25,22 @@ namespace LibraryAPI.Services.Concrete
 
         public async Task<IEnumerable<AuthorResponse>> GetAllAuthorsAsync(bool trackChanges)
         {
-            var authors = await _repositoryManager.AuthorRepository.GetAllAuthorsAsync(trackChanges);
+            var authors = await _repositoryManager.AuthorRepository
+                .GetAllAuthorsAsync(trackChanges);
             return _mapper.Map<IEnumerable<AuthorResponse>>(authors);
         }
 
         public async Task<IEnumerable<AuthorResponse>> GetAllActiveAuthorsAsync(bool trackChanges)
         {
-            var authors = await _repositoryManager.AuthorRepository.GetAllActiveAuthorsAsync(Status.Active.ToString(), trackChanges);
+            var authors = await _repositoryManager.AuthorRepository
+                .GetAllActiveAuthorsAsync(Status.Active.ToString(), trackChanges);
             return _mapper.Map<IEnumerable<AuthorResponse>>(authors);
         }
 
         public async Task<IEnumerable<AuthorResponse>> GetAllInActiveAuthorsAsync(bool trackChanges)
         {
-            var authors = await _repositoryManager.AuthorRepository.GetAllInActiveAuthorsAsync(Status.InActive.ToString(), trackChanges);
+            var authors = await _repositoryManager.AuthorRepository
+                .GetAllInActiveAuthorsAsync(Status.InActive.ToString(), trackChanges);
             return _mapper.Map<IEnumerable<AuthorResponse>>(authors);
         }
 
@@ -50,27 +54,33 @@ namespace LibraryAPI.Services.Concrete
         {
             var author = await _repositoryManager.AuthorRepository.GetAuthorByIdAsync(id, trackChanges);
             if (author == null)
-                throw new KeyNotFoundException("Author not found");
+                throw new NotFoundException("Author not found");
 
             if (author.AuthroStatus != Status.Active.ToString())
-                throw new InvalidOperationException("The author is not active anymore!");
+                throw new ConflictException("The author is not active anymore!");
 
             return _mapper.Map<AuthorResponse>(author);
         }
 
         public async Task<string> AddAuthorAsync(AuthorRequest authorRequest)
         {
+            // Validate the author's death year
             if (authorRequest.DeathYear.HasValue && authorRequest.DeathYear > DateTime.Now.Year)
-                throw new ArgumentException("The author's death year cannot be in the future!");
+                throw new BadRequestException("The author's death year cannot be in the future!");
 
-            var existingAuthors = await _repositoryManager.AuthorRepository
+            if (await _repositoryManager.LanguageRepository.GetLanguageByIdAsync(authorRequest.LanguageId, false) == null)
+                throw new BadRequestException($"The specified LanguageId: {authorRequest.LanguageId} does not exist!");
+
+
+            // Check if an author with the same details already exists
+            var authorExists = await _repositoryManager.AuthorRepository
                 .FindByCondition(a => a.FullName == authorRequest.FullName &&
                                       a.BirthYear == authorRequest.BirthYear &&
                                       a.DeathYear == authorRequest.DeathYear, false)
-                .ToListAsync();
+                .AnyAsync();
 
-            if (existingAuthors.Any())
-                throw new InvalidOperationException("The Author already exists!");
+            if (authorExists)
+                throw new ConflictException("The Author already exists!");
 
             var author = _mapper.Map<Author>(authorRequest);
 
@@ -80,25 +90,32 @@ namespace LibraryAPI.Services.Concrete
             return "Author successfully created!";
         }
 
-        public async Task<bool> UpdateAuthorAsync(long id, AuthorRequest authorRequest)
+        public async Task<bool> UpdateAuthorAsync(long id, AuthorRequest authorRequest, bool trackChanges)
         {
-            var author = await _repositoryManager.AuthorRepository.GetAuthorByIdAsync(id, true);
+            // Retrieve the author by ID and track changes if necessary
+            var author = await _repositoryManager.AuthorRepository.GetAuthorByIdAsync(id, trackChanges);
             if (author == null)
-                throw new KeyNotFoundException("Author not found");
+                throw new NotFoundException("Author not found");
 
+            // Validate the author's death year
             if (authorRequest.DeathYear.HasValue && authorRequest.DeathYear > DateTime.Now.Year)
-                throw new ArgumentException("The author's death year cannot be in the future!");
+                throw new BadRequestException("The author's death year cannot be in the future!");
 
-            var existingAuthors = await _repositoryManager.AuthorRepository
+            // Check if another author with the same details already exists
+            var authorExists = await _repositoryManager.AuthorRepository
                 .FindByCondition(a => a.FullName == authorRequest.FullName &&
                                       a.BirthYear == authorRequest.BirthYear &&
-                                      a.DeathYear == authorRequest.DeathYear, false)
-                .ToListAsync();
+                                      a.DeathYear == authorRequest.DeathYear &&
+                                      a.AuthorId != id, false)
+                .AnyAsync();
 
-            if (existingAuthors.Any())
-                throw new InvalidOperationException("The Author already exists!");
+            if (authorExists)
+                throw new ConflictException("An author with the same details already exists!");
 
+            // Map the updated values to the existing author entity
             _mapper.Map(authorRequest, author);
+
+            // Update the author in the repository and save the changes
             _repositoryManager.AuthorRepository.Update(author);
             await _repositoryManager.SaveAsync();
 
@@ -108,31 +125,34 @@ namespace LibraryAPI.Services.Concrete
         {
             var author = await _repositoryManager.AuthorRepository.GetAuthorByIdAsync(id, true);
             if (author == null)
-                throw new KeyNotFoundException("Author not found");
+                throw new NotFoundException("Author not found");
 
             author.AuthroStatus = status;
             _repositoryManager.AuthorRepository.Update(author);
 
-            var authorBooks = await _repositoryManager.BookRepository
+            // Perform a bulk update manually
+            var booksToUpdate = await _repositoryManager.BookRepository
                 .FindByCondition(b => b.AuthorBooks!.Any(ab => ab.AuthorsId == id), true)
                 .ToListAsync();
 
-            foreach (var book in authorBooks)
+            foreach (var book in booksToUpdate)
             {
                 book.BookStatus = status;
-                _repositoryManager.BookRepository.Update(book);
             }
+
+            _repositoryManager.BookRepository.UpdateRange(booksToUpdate);
 
             await _repositoryManager.SaveAsync();
 
             return true;
         }
 
+
         public async Task<bool> UpdateAuthorImageAsync(long id, IFormFile image)
         {
             var author = await _repositoryManager.AuthorRepository.GetAuthorByIdAsync(id, true);
             if (author == null)
-                throw new KeyNotFoundException("Author not found");
+                throw new NotFoundException("Author not found");
 
             var fileName = await _fileService.SaveFileAsync(image, "AuthorImages");
 
@@ -145,6 +165,10 @@ namespace LibraryAPI.Services.Concrete
 
         public async Task<byte[]> GetAuthorImageAsync(long authorId)
         {
+            var author = await _repositoryManager.AuthorRepository.GetAuthorByIdAsync(authorId, true);
+            if (author == null)
+                throw new NotFoundException("Author not found");
+
             try
             {
                 return await _fileService.GetImageByAuthorIdAsync(authorId);

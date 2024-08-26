@@ -2,6 +2,8 @@
 using LibraryAPI.Entities.DTOs.AuthorDTO;
 using LibraryAPI.Entities.DTOs.BookDTO;
 using LibraryAPI.Entities.DTOs.CategoryDTO;
+using LibraryAPI.Entities.DTOs.DepartmentDTO;
+using LibraryAPI.Entities.DTOs.EmployeeDTO;
 using LibraryAPI.Entities.DTOs.LanguageDTO;
 using LibraryAPI.Entities.DTOs.LoanDTO;
 using LibraryAPI.Entities.DTOs.LocationDTO;
@@ -21,8 +23,12 @@ namespace LibraryAPI.Services.MappingProfiles
         public MappingProfile()
         {
             // Author mappings
-            CreateMap<Author, AuthorResponse>().ReverseMap();
-            CreateMap<AuthorRequest, Author>();
+            CreateMap<Author, AuthorResponse>()
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.AuthorBooks != null
+                    ? src.AuthorBooks.Select(ab => ab.Book!.Title).ToList()
+                    : new List<string>()));
+            CreateMap<AuthorRequest, Author>()
+                .ForMember(dest => dest.AuthorBooks, opt => opt.Ignore());
 
             // Penalty mappings
             CreateMap<Penalty, PenaltyResponse>()
@@ -31,13 +37,34 @@ namespace LibraryAPI.Services.MappingProfiles
 
             // Book mappings
             CreateMap<Book, BookResponse>()
-               // .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.BookSubCategories!.Name))
-                .ForMember(dest => dest.PublisherName, opt => opt.MapFrom(src => src.Publisher!.Name));
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.BookSubCategories != null && src.BookSubCategories.Any()
+                    ? src.BookSubCategories.FirstOrDefault()!.SubCategory!.Category!.Name
+                    : string.Empty))
+                .ForMember(dest => dest.SubCategoryNames, opt => opt.MapFrom(src => src.BookSubCategories != null
+                    ? src.BookSubCategories.Select(sc => sc.SubCategory!.Name).ToList()
+                    : new List<string>()))
+                .ForMember(dest => dest.LanguageNames, opt => opt.MapFrom(src => src.BookLanguages != null
+                    ? src.BookLanguages.Select(l => l.Language!.Name).ToList()
+                    : new List<string>()))
+                .ForMember(dest => dest.AuthorNames, opt => opt.MapFrom(src => src.AuthorBooks != null
+                    ? src.AuthorBooks.Select(ab => ab.Author!.FullName).ToList()
+                    : new List<string>()))
+                .ForMember(dest => dest.PublisherName, opt => opt.MapFrom(src => src.Publisher != null
+                    ? src.Publisher.Name
+                    : string.Empty));
             CreateMap<BookRequest, Book>();
 
             // Category mappings
             CreateMap<Category, CategoryResponse>().ReverseMap();
             CreateMap<CategoryRequest, Category>();
+
+            // Department mappings
+            CreateMap<Department, DepartmentResponse>().ReverseMap();
+            CreateMap<DepartmentRequest, Department>();
+
+            // Employee mappings
+            CreateMap<Employee, EmployeeResponse>().ReverseMap();
+            CreateMap<EmployeeRequest, Employee>();
 
             // Language mappings
             CreateMap<Language, LanguageResponse>().ReverseMap();

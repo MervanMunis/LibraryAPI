@@ -23,11 +23,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all books.
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetBooks(bool trackChanges = false)
+        public async Task<IActionResult> GetBooks()
         {
             try
             {
-                var books = await _serviceManager.BookService.GetAllBooksAsync(trackChanges);
+                var books = await _serviceManager.BookService.GetAllBooksAsync(false);
                 return Ok(books);
             }
             catch (Exception ex)
@@ -40,11 +40,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all active books.
         /// </summary>
         [HttpGet("active")]
-        public async Task<IActionResult> GetAllActiveBooks(bool trackChanges = false)
+        public async Task<IActionResult> GetAllActiveBooks()
         {
             try
             {
-                var books = await _serviceManager.BookService.GetAllActiveBooksAsync(trackChanges);
+                var books = await _serviceManager.BookService.GetAllActiveBooksAsync(false);
                 return Ok(books);
             }
             catch (Exception ex)
@@ -57,11 +57,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all inactive books.
         /// </summary>
         [HttpGet("inactive")]
-        public async Task<IActionResult> GetAllInActiveBooks(bool trackChanges = false)
+        public async Task<IActionResult> GetAllInActiveBooks()
         {
             try
             {
-                var books = await _serviceManager.BookService.GetAllInActiveBooksAsync(trackChanges);
+                var books = await _serviceManager.BookService.GetAllInActiveBooksAsync(false);
                 return Ok(books);
             }
             catch (Exception ex)
@@ -74,11 +74,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all banned books.
         /// </summary>
         [HttpGet("banned")]
-        public async Task<IActionResult> GetAllBannedBooks(bool trackChanges = false)
+        public async Task<IActionResult> GetAllBannedBooks()
         {
             try
             {
-                var books = await _serviceManager.BookService.GetAllBannedBooksAsync(trackChanges);
+                var books = await _serviceManager.BookService.GetAllBannedBooksAsync(false);
                 return Ok(books);
             }
             catch (Exception ex)
@@ -91,11 +91,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all active book copies.
         /// </summary>
         [HttpGet("bookCopy/active")]
-        public async Task<IActionResult> GetAllActiveBookCopies(bool trackChanges = false)
+        public async Task<IActionResult> GetAllActiveBookCopies()
         {
             try
             {
-                var bookCopies = await _serviceManager.BookCopyService.GetAllActiveBookCopiesAsync(trackChanges);
+                var bookCopies = await _serviceManager.BookCopyService.GetAllActiveBookCopiesAsync(false);
                 return Ok(bookCopies);
             }
             catch (Exception ex)
@@ -108,11 +108,13 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all inactive book copies.
         /// </summary>
         [HttpGet("bookCopy/inactive")]
-        public async Task<IActionResult> GetAllInActiveBookCopies(bool trackChanges = false)
+        public async Task<IActionResult> GetAllInActiveBookCopies()
         {
             try
             {
-                var bookCopies = await _serviceManager.BookCopyService.GetAllInActiveBookCopiesAsync(trackChanges);
+                var bookCopies = await _serviceManager.BookCopyService
+                    .GetAllInActiveBookCopiesAsync(false);
+
                 return Ok(bookCopies);
             }
             catch (Exception ex)
@@ -125,11 +127,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all borrowed book copies.
         /// </summary>
         [HttpGet("bookCopy/borrowed")]
-        public async Task<IActionResult> GetAllBorrowedBookCopies(bool trackChanges = false)
+        public async Task<IActionResult> GetAllBorrowedBookCopies()
         {
             try
             {
-                var bookCopies = await _serviceManager.BookCopyService.GetAllBorrowedBookCopiesAsync(trackChanges);
+                var bookCopies = await _serviceManager.BookCopyService
+                    .GetAllBorrowedBookCopiesAsync(false);
                 return Ok(bookCopies);
             }
             catch (Exception ex)
@@ -142,11 +145,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves a specific book by its ID.
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBook(long id, bool trackChanges = false)
+        public async Task<IActionResult> GetBook(long id)
         {
             try
             {
-                var book = await _serviceManager.BookService.GetBookByIdAsync(id, trackChanges);
+                var book = await _serviceManager.BookService.GetBookByIdAsync(id, false);
                 if (book == null)
                     return NotFound("Book not found.");
 
@@ -212,14 +215,6 @@ namespace LibraryAPI.Presentation.Controllers
                 await _serviceManager.BookService.UpdateBookAsync(id, bookRequest);
                 return Ok("The book is updated successfully.");
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("Book not found.");
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
@@ -236,10 +231,6 @@ namespace LibraryAPI.Presentation.Controllers
             {
                 await _serviceManager.BookService.SetBookStatusAsync(id, Status.InActive.ToString());
                 return Ok("The status of the book is now inactive.");
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("Book not found.");
             }
             catch (Exception ex)
             {
@@ -258,10 +249,6 @@ namespace LibraryAPI.Presentation.Controllers
                 await _serviceManager.BookService.SetBookStatusAsync(id, Status.Active.ToString());
                 return Ok("The status of the book is now active.");
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("Book not found.");
-            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
@@ -278,10 +265,6 @@ namespace LibraryAPI.Presentation.Controllers
             {
                 await _serviceManager.BookService.SetBookStatusAsync(id, Status.Banned.ToString());
                 return Ok("The status of the book is now banned.");
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("Book not found.");
             }
             catch (Exception ex)
             {
@@ -302,10 +285,6 @@ namespace LibraryAPI.Presentation.Controllers
             {
                 await _serviceManager.BookService.UpdateBookImageAsync(id, coverImage);
                 return Ok("The book's image has been updated successfully.");
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("Book not found.");
             }
             catch (Exception ex)
             {
@@ -347,14 +326,6 @@ namespace LibraryAPI.Presentation.Controllers
                 await _serviceManager.BookService.UpdateBookRatingAsync(id, ratingRequest.GivenRating, ratingRequest.MemberId!);
                 return Ok("The book rating has been updated successfully.");
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("Book not found.");
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
@@ -371,14 +342,6 @@ namespace LibraryAPI.Presentation.Controllers
             {
                 await _serviceManager.BookService.UpdateBookCopiesAsync(id, change);
                 return Ok("The book copies have been updated successfully.");
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("Book not found.");
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

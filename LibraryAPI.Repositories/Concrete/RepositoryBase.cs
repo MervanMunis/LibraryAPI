@@ -39,6 +39,8 @@ namespace LibraryAPI.Repositories.Concrete
 
         public void Update(T entity) => _context.Set<T>().Update(entity);
 
+        public void UpdateRange(IEnumerable<T> entities) => _context.Set<T>().UpdateRange(entities);
+
         public void Delete(T entity) => _context.Set<T>().Remove(entity);
 
         public void Delete(IEnumerable<T> entities) => _context.Set<T>().RemoveRange(entities);

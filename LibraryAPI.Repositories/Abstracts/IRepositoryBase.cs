@@ -9,6 +9,7 @@ namespace LibraryAPI.Repositories.Abstracts
         Task<T> CreateAsync(T entity);
         Task CreateAsync(IEnumerable<T> entities);
         void Update(T entity);
+        void UpdateRange(IEnumerable<T> entities);
         void Delete(T entity);
         void Delete(IEnumerable<T> entities);
     }

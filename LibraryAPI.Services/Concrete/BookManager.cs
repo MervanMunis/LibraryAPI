@@ -4,6 +4,7 @@ using LibraryAPI.Entities.Enums;
 using LibraryAPI.Entities.Models;
 using LibraryAPI.Repositories.Manager;
 using LibraryAPI.Services.Abstracts;
+using LibraryAPI.Services.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -60,15 +61,22 @@ namespace LibraryAPI.Services.Concrete
 
         public async Task AddBookAsync(BookRequest bookRequest)
         {
-            var existingBook = await _repositoryManager.BookRepository.FindByCondition(b => b.ISBN == bookRequest.ISBN, false).FirstOrDefaultAsync();
+            var existingBook = await _repositoryManager.BookRepository
+                .FindByCondition(b => b.ISBN == bookRequest.ISBN, false)
+                .FirstOrDefaultAsync();
+
             if (existingBook != null)
-                throw new InvalidOperationException("The book with the specified ISBN is already in the database!");
-
+                throw new ConflictException("The book with the specified ISBN is already in the database!");
+                
             var newBook = _mapper.Map<Book>(bookRequest);
-            newBook.BookStatus = Status.Active.ToString();
 
+            // First, save the book to get the BookId
             await _repositoryManager.BookRepository.CreateAsync(newBook);
             await _repositoryManager.SaveAsync();
+
+
+            // Handle cross-table relationships
+            await AssignCrossTableRelationshipsAsync(newBook, bookRequest);
 
             var bookCopies = Enumerable.Range(0, bookRequest.CopyCount).Select(_ => new BookCopy
             {
@@ -84,19 +92,24 @@ namespace LibraryAPI.Services.Concrete
         {
             var book = await _repositoryManager.BookRepository.GetBookByIdAsync(id, true);
             if (book == null)
-                throw new KeyNotFoundException("Book not found");
+                throw new NotFoundException("Book not found");
 
             if (book.ISBN != bookRequest.ISBN)
             {
-                var existingBook = await _repositoryManager.BookRepository.FindByCondition(b => b.ISBN == bookRequest.ISBN, false).FirstOrDefaultAsync();
-                if (existingBook != null)
-                    throw new InvalidOperationException("The book with the specified ISBN already exists!");
+                var existingBook = await _repositoryManager.BookRepository
+                    .FindByCondition(b => b.ISBN == bookRequest.ISBN, false)
+                    .AnyAsync();
+
+                if (existingBook)
+                    throw new ConflictException("The book with the specified ISBN already exists!");
             }
 
             _mapper.Map(bookRequest, book);
-            _repositoryManager.BookRepository.Update(book);
 
-            await UpdateBookCrossTablesAsync(id, bookRequest);
+            // Handle cross-table relationships
+            await AssignCrossTableRelationshipsAsync(book, bookRequest);
+
+            _repositoryManager.BookRepository.Update(book);
             await _repositoryManager.SaveAsync();
         }
 
@@ -104,7 +117,7 @@ namespace LibraryAPI.Services.Concrete
         {
             var book = await _repositoryManager.BookRepository.GetBookByIdAsync(id, true);
             if (book == null)
-                throw new KeyNotFoundException("Book not found");
+                throw new NotFoundException("Book not found");
 
             book.BookStatus = status;
             _repositoryManager.BookRepository.Update(book);
@@ -126,7 +139,7 @@ namespace LibraryAPI.Services.Concrete
         {
             var book = await _repositoryManager.BookRepository.GetBookByIdAsync(id, true);
             if (book == null)
-                throw new KeyNotFoundException("Book not found");
+                throw new NotFoundException("Book not found");
 
             var filePath = await _fileService.SaveFileAsync(coverImage, "BookImages");
             book.CoverFileName = filePath;
@@ -140,7 +153,7 @@ namespace LibraryAPI.Services.Concrete
             // Check if the book exists
             var book = await _repositoryManager.BookRepository.GetBookByIdAsync(id, false);
             if (book == null)
-                throw new KeyNotFoundException("Book not found");
+                throw new NotFoundException("Book not found");
 
             // Get the image from the file service
             return await _fileService.GetImageByBookIdAsync(id);
@@ -149,7 +162,7 @@ namespace LibraryAPI.Services.Concrete
         public async Task UpdateBookRatingAsync(long id, float rating, string memberId)
         {
             if (rating < 0 || rating > 5)
-                throw new ArgumentException("Rating must be between 0 and 5!");
+                throw new BadRequestException("Rating must be between 0 and 5!");
 
             // Look for an existing rating by this member for this book
             var existingRating = await _repositoryManager.BookRatingRepository
@@ -183,12 +196,12 @@ namespace LibraryAPI.Services.Concrete
         {
             var book = await _repositoryManager.BookRepository.GetBookByIdAsync(id, true);
             if (book == null)
-                throw new KeyNotFoundException("Book not found");
+                throw new NotFoundException("Book not found");
 
             var activeCopiesCount = await _repositoryManager.BookCopyRepository.FindByCondition(bc => bc.BookId == id && bc.BookCopyStatus == Status.Active.ToString(), false).CountAsync();
 
             if (activeCopiesCount + change < 0)
-                throw new InvalidOperationException("Not enough copies available");
+                throw new BadRequestException("Not enough copies available");
 
             if (change > 0)
             {
@@ -202,8 +215,10 @@ namespace LibraryAPI.Services.Concrete
             }
             else if (change < 0)
             {
-                var copiesToRemove = await _repositoryManager.BookCopyRepository.FindByCondition(bc => bc.BookId == id && bc.BookCopyStatus == Status.Active.ToString(), true)
-                    .Take(Math.Abs(change)).ToListAsync();
+                var copiesToRemove = await _repositoryManager.BookCopyRepository
+                    .FindByCondition(bc => bc.BookId == id && bc.BookCopyStatus == Status.Active.ToString(), true)
+                    .Take(Math.Abs(change))
+                    .ToListAsync();
 
                 foreach (var copy in copiesToRemove)
                 {
@@ -215,83 +230,34 @@ namespace LibraryAPI.Services.Concrete
             await _repositoryManager.SaveAsync();
         }
 
-        private async Task UpdateBookCrossTablesAsync(long id, BookRequest bookRequest)
+        private async Task AssignCrossTableRelationshipsAsync(Book book, BookRequest bookRequest)
         {
-            var book = await _repositoryManager.BookRepository.GetBookByIdAsync(id, true);
-            if (book == null)
-                throw new KeyNotFoundException("Book not found");
-
-            // Update AuthorBooks relationship
-            var existingAuthorBooks = await _repositoryManager.AuthorBookRepository
-                .FindByCondition(ab => ab.BooksId == id, true)
-                .ToListAsync();
-
-            var newAuthorBooks = bookRequest.AuthorIds
-                .Where(authorId => !existingAuthorBooks.Any(ab => ab.AuthorsId == authorId))
-                .Select(authorId => new AuthorBook { AuthorsId = authorId, BooksId = book.BookId })
-                .ToList();
-
-            var authorBooksToRemove = existingAuthorBooks
-                .Where(ab => !bookRequest.AuthorIds.Contains(ab.AuthorsId!.Value))
-                .ToList();
-
-            if (authorBooksToRemove.Any())
+            // Handle authors
+            var authorBooks = bookRequest.AuthorIds.Select(authorId => new AuthorBook
             {
-                _repositoryManager.AuthorBookRepository.Delete(authorBooksToRemove);
-            }
+                AuthorsId = authorId,
+                BooksId = book.BookId
+            }).ToList();
 
-            if (newAuthorBooks.Any())
+            await _repositoryManager.AuthorBookRepository.CreateAsync(authorBooks);
+
+            // Handle languages
+            var bookLanguages = bookRequest.LanguageIds.Select(languageId => new BookLanguage
             {
-                await _repositoryManager.AuthorBookRepository.CreateAsync(newAuthorBooks);
-            }
+                LanguagesId = languageId,
+                BooksId = book.BookId
+            }).ToList();
 
-            // Update BookLanguages relationship
-            var existingBookLanguages = await _repositoryManager.BookLanguageRepository
-                .FindByCondition(bl => bl.BooksId == id, true)
-                .ToListAsync();
+            await _repositoryManager.BookLanguageRepository.CreateAsync(bookLanguages);
 
-            var newBookLanguages = bookRequest.LanguageIds
-                .Where(languageId => !existingBookLanguages.Any(bl => bl.LanguagesId == languageId))
-                .Select(languageId => new BookLanguage { LanguagesId = languageId, BooksId = book.BookId })
-                .ToList();
-
-            var bookLanguagesToRemove = existingBookLanguages
-                .Where(bl => !bookRequest.LanguageIds.Contains(bl.LanguagesId!.Value))
-                .ToList();
-
-            if (bookLanguagesToRemove.Any())
+            // Handle subcategories
+            var bookSubCategories = bookRequest.SubCategoryIds.Select(subCategoryId => new BookSubCategory
             {
-                _repositoryManager.BookLanguageRepository.Delete(bookLanguagesToRemove);
-            }
+                SubCategoriesId = subCategoryId,
+                BooksId = book.BookId
+            }).ToList();
 
-            if (newBookLanguages.Any())
-            {
-                await _repositoryManager.BookLanguageRepository.CreateAsync(newBookLanguages);
-            }
-
-            // Update BookSubCategories relationship
-            var existingBookSubCategories = await _repositoryManager.BookSubCategoryRepository
-                .FindByCondition(bsc => bsc.BooksId == id, true)
-                .ToListAsync();
-
-            var newBookSubCategories = bookRequest.SubCategoryIds
-                .Where(subCategoryId => !existingBookSubCategories.Any(bsc => bsc.SubCategoriesId == subCategoryId))
-                .Select(subCategoryId => new BookSubCategory { SubCategoriesId = subCategoryId, BooksId = book.BookId })
-                .ToList();
-
-            var bookSubCategoriesToRemove = existingBookSubCategories
-                .Where(bsc => !bookRequest.SubCategoryIds.Contains(bsc.SubCategoriesId!.Value))
-                .ToList();
-
-            if (bookSubCategoriesToRemove.Any())
-            {
-                _repositoryManager.BookSubCategoryRepository.Delete(bookSubCategoriesToRemove);
-            }
-
-            if (newBookSubCategories.Any())
-            {
-                await _repositoryManager.BookSubCategoryRepository.CreateAsync(newBookSubCategories);
-            }
+            await _repositoryManager.BookSubCategoryRepository.CreateAsync(bookSubCategories);
 
             await _repositoryManager.SaveAsync();
         }

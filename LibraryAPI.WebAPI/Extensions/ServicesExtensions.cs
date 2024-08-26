@@ -4,6 +4,7 @@ using LibraryAPI.Services.Manager;
 using LibraryAPI.Repositories.Data;
 using LibraryAPI.Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using LibraryAPI.Presentation.Auth.Services;
 
 namespace YourNamespace.WebAPI.Extensions
 {
@@ -22,7 +23,7 @@ namespace YourNamespace.WebAPI.Extensions
                 opts.Password.RequireDigit = true;
                 opts.Password.RequireLowercase = true;
                 opts.Password.RequireUppercase = true;
-                opts.Password.RequiredLength = 6;
+                opts.Password.RequiredLength = 5;
                 opts.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<RepositoryContext>()
@@ -37,6 +38,10 @@ namespace YourNamespace.WebAPI.Extensions
         // Configures the service manager to be added to the IServiceCollection scope.
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
+
+        // Configures the Auth manager to be added to the IServiceCollection scope.
+        public static void ConfigureAuthenticationManager(this IServiceCollection services) =>
+            services.AddScoped<IAuthenticationService, AuthenticationManager>();
 
         // Configures AutoMapper to automatically map between DTOs and entities.
         public static void ConfigureAutoMapper(this IServiceCollection services) =>

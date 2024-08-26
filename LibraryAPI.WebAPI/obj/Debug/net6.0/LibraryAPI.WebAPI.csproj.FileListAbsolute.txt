@@ -6,6 +6,8 @@ C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\LibraryAPI.
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\LibraryAPI.WebAPI.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\LibraryAPI.WebAPI.pdb
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Humanizer.dll
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
@@ -13,6 +15,7 @@ C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.D
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
@@ -21,6 +24,7 @@ C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.E
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
@@ -67,6 +71,7 @@ C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\LibraryAPI.
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\LibraryAPI.WebAPI.csproj.CoreCompileInputs.cache
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\LibraryAPI.WebAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\LibraryAPI.WebAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\LibraryAPI.WebAPI.sourcelink.json
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\staticwebassets\msbuild.LibraryAPI.WebAPI.Microsoft.AspNetCore.StaticWebAssets.props
@@ -81,5 +86,3 @@ C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\refint\Libr
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\LibraryAPI.WebAPI.pdb
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\LibraryAPI.WebAPI.genruntimeconfig.cache
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\obj\Debug\net6.0\ref\LibraryAPI.WebAPI.dll
-C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Humanizer.dll
-C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll

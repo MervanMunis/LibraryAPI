@@ -12,6 +12,7 @@ C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Presentation\obj\Debug\net6.0\Libra
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Presentation\obj\Debug\net6.0\LibraryAPI.Presentation.AssemblyInfoInputs.cache
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Presentation\obj\Debug\net6.0\LibraryAPI.Presentation.AssemblyInfo.cs
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Presentation\obj\Debug\net6.0\LibraryAPI.Presentation.csproj.CoreCompileInputs.cache
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Presentation\obj\Debug\net6.0\LibraryAPI.Presentation.sourcelink.json
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Presentation\obj\Debug\net6.0\LibraryA.6E4BACF2.Up2Date
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Presentation\obj\Debug\net6.0\LibraryAPI.Presentation.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Presentation\obj\Debug\net6.0\refint\LibraryAPI.Presentation.dll

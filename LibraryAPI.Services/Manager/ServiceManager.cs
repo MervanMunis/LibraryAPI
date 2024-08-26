@@ -51,6 +51,7 @@ namespace LibraryAPI.Services.Manager
         public ICategoryService CategoryService => _categoryService.Value;
         public IDepartmentService DepartmentService => _departmentService.Value;
         public IEmployeeService EmployeeService => _employeeService.Value;
+        public IFileService FileService => _fileService.Value;
         public ILanguageService LanguageService => _languageService.Value;
         public ILoanService LoanService => _loanService.Value;
         public ILocationService LocationService => _locationService.Value;

@@ -10,6 +10,7 @@ namespace LibraryAPI.Services.Manager
         ICategoryService CategoryService { get; }
         IDepartmentService DepartmentService { get; }
         IEmployeeService EmployeeService { get; }
+        IFileService FileService { get; }
         ILanguageService LanguageService { get; }
         ILoanService LoanService { get; }
         ILocationService LocationService { get; }   

@@ -1,5 +1,6 @@
 ﻿using LibraryAPI.Entities.DTOs.AuthorDTO;
 using LibraryAPI.Services.Manager;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,10 +21,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all authors.
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAuthors(bool trackChanges = false)
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
+        public async Task<IActionResult> GetAuthors()
         {
             try
             {
+                bool trackChanges = false;
                 var authors = await _serviceManager.AuthorService.GetAllAuthorsAsync(trackChanges);
                 return Ok(authors);
             }
@@ -37,10 +40,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all active authors.
         /// </summary>
         [HttpGet("active")]
-        public async Task<IActionResult> GetAllActiveAuthors(bool trackChanges = false)
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
+        public async Task<IActionResult> GetAllActiveAuthors()
         {
             try
             {
+                bool trackChanges = false;
                 var authors = await _serviceManager.AuthorService.GetAllActiveAuthorsAsync(trackChanges);
                 return Ok(authors);
             }
@@ -54,10 +59,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all inactive authors.
         /// </summary>
         [HttpGet("inactive")]
-        public async Task<IActionResult> GetAllInactiveAuthors(bool trackChanges = false)
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
+        public async Task<IActionResult> GetAllInactiveAuthors()
         {
             try
             {
+                bool trackChanges = false;
                 var authors = await _serviceManager.AuthorService.GetAllInActiveAuthorsAsync(trackChanges);
                 return Ok(authors);
             }
@@ -71,10 +78,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all banned authors.
         /// </summary>
         [HttpGet("banned")]
-        public async Task<IActionResult> GetAllBannedAuthors(bool trackChanges = false)
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
+        public async Task<IActionResult> GetAllBannedAuthors()
         {
             try
             {
+                bool trackChanges = false;
                 var authors = await _serviceManager.AuthorService.GetAllBannedAuthorsAsync(trackChanges);
                 return Ok(authors);
             }
@@ -88,10 +97,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves an author by their ID.
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAuthor(long id, bool trackChanges = false)
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
+        public async Task<IActionResult> GetAuthor(long id)
         {
             try
             {
+                bool trackChanges = false;
                 var author = await _serviceManager.AuthorService.GetAuthorByIdAsync(id, trackChanges);
                 return author == null ? NotFound("Author not found") : Ok(author);
             }
@@ -105,6 +116,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Adds a new author.
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> PostAuthor([FromBody] AuthorRequest authorRequest)
         {
             if (authorRequest == null)
@@ -125,6 +137,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Updates an existing author's details.
         /// </summary>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> PutAuthor(long id, [FromBody] AuthorRequest authorRequest)
         {
             if (authorRequest == null)
@@ -132,7 +145,7 @@ namespace LibraryAPI.Presentation.Controllers
 
             try
             {
-                var success = await _serviceManager.AuthorService.UpdateAuthorAsync(id, authorRequest);
+                var success = await _serviceManager.AuthorService.UpdateAuthorAsync(id, authorRequest, true);
                 return success ? Ok("Author updated successfully.") : NotFound("Author not found.");
             }
             catch (Exception ex)
@@ -145,6 +158,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Sets an author to inactive.
         /// </summary>
         [HttpPatch("{id}/status/inactive")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> InactiveAuthor(long id)
         {
             try
@@ -162,6 +176,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Bans an author.
         /// </summary>
         [HttpPatch("{id}/status/banned")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> BanAuthor(long id)
         {
             try
@@ -179,6 +194,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Sets an author to active.
         /// </summary>
         [HttpPatch("{id}/status/active")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> SetAuthorActive(long id)
         {
             try
@@ -196,12 +212,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// Updates the image of an author.
         /// </summary>
         [HttpPatch("{id}/image")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> UpdateAuthorImage(long id, IFormFile image)
         {
             if (image == null)
-            {
                 return BadRequest("Image file is required.");
-            }
 
             try
             {
@@ -218,6 +233,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves the image of an author by author ID.
         /// </summary>
         [HttpGet("{id}/image")]
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetAuthorImage(long id)
         {
             try

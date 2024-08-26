@@ -11,7 +11,7 @@ namespace LibraryAPI.Services.Abstracts
         Task<IEnumerable<AuthorResponse>> GetAllBannedAuthorsAsync(bool trackChanges);
         Task<AuthorResponse> GetAuthorByIdAsync(long id, bool trackChanges);
         Task<string> AddAuthorAsync(AuthorRequest authorRequest);
-        Task<bool> UpdateAuthorAsync(long id, AuthorRequest authorRequest);
+        Task<bool> UpdateAuthorAsync(long id, AuthorRequest authorRequest, bool trackChanges);
         Task<bool> SetAuthorStatusAsync(long id, string status);
         Task<bool> UpdateAuthorImageAsync(long id, IFormFile image);
         Task<byte[]> GetAuthorImageAsync(long authorId);

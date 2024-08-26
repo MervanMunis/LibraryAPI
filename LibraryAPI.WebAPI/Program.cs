@@ -2,6 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using YourNamespace.WebAPI.Extensions;
 using LibraryAPI.Repositories.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
+using LibraryAPI.Entities.Models;
+using LibraryAPI.Presentation.Auth.Controllers;
+using LibraryAPI.Presentation.Middleware;
 
 namespace LibraryAPI
 {
@@ -12,22 +19,45 @@ namespace LibraryAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Configure services
-            builder.Services.ConfigureSqlContext(builder.Configuration);
-            builder.Services.ConfigureIdentity();
-            builder.Services.ConfigureRepositoryManager();
-            builder.Services.ConfigureServiceManager();
-            builder.Services.ConfigureAutoMapper();
+            builder.Services.ConfigureSqlContext(builder.Configuration); // Configure the DbContext
+            builder.Services.ConfigureIdentity(); // Configure Identity services
+            builder.Services.ConfigureRepositoryManager(); // Configure the repository manager
+            builder.Services.ConfigureServiceManager(); // Configure the service manager
+            builder.Services.ConfigureAutoMapper(); // Configure AutoMapper
+            builder.Services.ConfigureAuthenticationManager(); // Configure the custom authentication manager
+
+            // Configure JWT authentication
+            var jwtSettings = builder.Configuration.GetSection("Authentication:Jwt");
+            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["Issuer"],
+                    ValidAudience = jwtSettings["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             // Add services to the container
+            builder.Services.AddAuthorization(); // Add Authorization
             builder.Services.AddControllers()
-                .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+                .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly); // Add Controllers and Presentation Layer
 
             // Configure Swagger for API documentation
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "LibraryAPI", Version = "v1" });
-                // Uncomment this if you want to include JWT Bearer Authentication in Swagger in the future
-                /*
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme.",
@@ -51,7 +81,6 @@ namespace LibraryAPI
                         Array.Empty<string>()
                     }
                 });
-                */
             });
 
             // Build the app
@@ -67,12 +96,9 @@ namespace LibraryAPI
                     var dbContext = services.GetRequiredService<RepositoryContext>(); // Get the DbContext
                     await dbContext.Database.MigrateAsync(); // Apply migrations automatically
 
-                    // Uncomment this block if you want to ensure roles are created in the future
-                    /*
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    await RoleManager.InitializeAsync(userManager, roleManager);
-                    */
+                    await RoleInitializer.InitializeAsync(userManager, roleManager); // Initialize roles and admin user
                 }
                 catch (Exception ex)
                 {
@@ -88,14 +114,19 @@ namespace LibraryAPI
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); // Redirect HTTP requests to HTTPS
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthentication(); // Use authentication middleware
+            app.UseAuthorization(); // Use authorization middleware
 
-            app.MapControllers();
+            app.UseMiddleware<ValidationMiddleware>(); // Use custom validation middleware
+            app.UseMiddleware<CustomResponseMiddleware>(); // Use custom response formatting middleware
+            app.UseMiddleware<ExceptionMiddleware>(); // Use custom exception handling middleware
+            app.UseMiddleware<ExceptionLoggingMiddleware>(); // Use custom exception logging middleware
 
-            await app.RunAsync();
+            app.MapControllers(); // Map controller routes
+
+            await app.RunAsync(); // Run the application
         }
     }
 }

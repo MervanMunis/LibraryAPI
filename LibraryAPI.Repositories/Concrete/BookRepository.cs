@@ -10,7 +10,16 @@ namespace LibraryAPI.Repositories.Concrete
         public BookRepository(RepositoryContext context) : base(context) { }
 
         public async Task<IEnumerable<Book>> GetAllBooksAsync(bool trackChanges) =>
-            await FindAll(trackChanges).ToListAsync();
+            await FindAll(trackChanges)
+            .Include(b => b.BookSubCategories)!
+                .ThenInclude(bsc => bsc.SubCategory)
+                .ThenInclude(sc => sc!.Category)
+            .Include(b => b.BookLanguages)!
+                .ThenInclude(bl => bl.Language)
+            .Include(b => b.AuthorBooks)!
+                .ThenInclude(ab => ab.Author)
+            .Include(b => b.Publisher)
+            .ToListAsync();
 
         public async Task<IEnumerable<Book>> GetAllActiveBooksAsync(string active, bool trackChanges)
             => await FindByCondition(a => a.BookStatus.Equals(active), trackChanges)

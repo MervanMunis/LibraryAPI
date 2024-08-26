@@ -6,6 +6,7 @@ C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAP
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.AssemblyInfoInputs.cache
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.AssemblyInfo.cs
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.csproj.CoreCompileInputs.cache
+C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.sourcelink.json
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\refint\LibraryAPI.Entities.dll
 C:\Users\merva\Desktop\LibraryAPI\LibraryAPI.Entities\obj\Debug\net6.0\LibraryAPI.Entities.pdb

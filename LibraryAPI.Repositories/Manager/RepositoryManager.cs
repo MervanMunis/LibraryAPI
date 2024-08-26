@@ -30,6 +30,7 @@ namespace LibraryAPI.Repositories.Manager
         private IPublisherRepository _publisherRepository;
         private ISubCategoryRepository _subCategoryRepository;
         private IWantedBookRepository _wantedBookRepository;
+        private IUserTokenRepository _userTokenRepository;
 
         public RepositoryManager(RepositoryContext context)
         {
@@ -41,7 +42,6 @@ namespace LibraryAPI.Repositories.Manager
 
         public IBookCopyRepository BookCopyRepository => 
             _bookCopyRepository ??= new BookCopyRepository(_context);
-
 
         public IBookRepository BookRepository =>
             _bookRepository ??= new BookRepository(_context);
@@ -105,6 +105,9 @@ namespace LibraryAPI.Repositories.Manager
 
         public IWantedBookRepository WantedBookRepository =>
             _wantedBookRepository ??= new WantedBookRepository(_context);
+
+        public IUserTokenRepository UserTokenRepository => 
+            _userTokenRepository ??= new UserTokenRepository(_context);
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
     }

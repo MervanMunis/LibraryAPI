@@ -27,6 +27,7 @@ namespace LibraryAPI.Repositories.Manager
         IPublisherRepository PublisherRepository { get; }
         ISubCategoryRepository SubCategoryRepository { get; }
         IWantedBookRepository WantedBookRepository { get; }
+        IUserTokenRepository UserTokenRepository { get; }
 
         Task SaveAsync();
     }
