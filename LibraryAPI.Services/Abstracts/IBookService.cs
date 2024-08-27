@@ -17,6 +17,5 @@ namespace LibraryAPI.Services.Abstracts
         Task UpdateBookImageAsync(long id, IFormFile coverImage);
         Task<byte[]> GetBookImageAsync(long id);
         Task UpdateBookRatingAsync(long id, float rating, string memberId);
-        Task UpdateBookCopiesAsync(long id, short change);
     }
 }

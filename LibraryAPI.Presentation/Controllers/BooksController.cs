@@ -3,8 +3,10 @@ using LibraryAPI.Entities.DTOs.BookDTO;
 using LibraryAPI.Entities.DTOs.BookRatingDTO;
 using LibraryAPI.Entities.Enums;
 using LibraryAPI.Services.Manager;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LibraryAPI.Presentation.Controllers
 {
@@ -23,6 +25,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all books.
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetBooks()
         {
             try
@@ -40,6 +43,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all active books.
         /// </summary>
         [HttpGet("active")]
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetAllActiveBooks()
         {
             try
@@ -57,6 +61,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all inactive books.
         /// </summary>
         [HttpGet("inactive")]
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetAllInActiveBooks()
         {
             try
@@ -74,6 +79,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all banned books.
         /// </summary>
         [HttpGet("banned")]
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetAllBannedBooks()
         {
             try
@@ -91,6 +97,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all active book copies.
         /// </summary>
         [HttpGet("bookCopy/active")]
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetAllActiveBookCopies()
         {
             try
@@ -108,6 +115,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all inactive book copies.
         /// </summary>
         [HttpGet("bookCopy/inactive")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetAllInActiveBookCopies()
         {
             try
@@ -127,6 +135,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves all borrowed book copies.
         /// </summary>
         [HttpGet("bookCopy/borrowed")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetAllBorrowedBookCopies()
         {
             try
@@ -145,14 +154,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves a specific book by its ID.
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetBook(long id)
         {
             try
             {
                 var book = await _serviceManager.BookService.GetBookByIdAsync(id, false);
-                if (book == null)
-                    return NotFound("Book not found.");
-
                 return Ok(book);
             }
             catch (Exception ex)
@@ -165,6 +172,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Adds a new book.
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> PostBook([FromBody] BookRequest bookRequest)
         {
             if (bookRequest == null)
@@ -185,6 +193,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Adds location information to book copies.
         /// </summary>
         [HttpPost("bookCopies/locations")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> AddLocationOfBookCopies([FromBody] List<BookCopyRequest> bookCopyRequests)
         {
             if (bookCopyRequests == null || !bookCopyRequests.Any())
@@ -205,6 +214,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Updates an existing book.
         /// </summary>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> PutBook(long id, [FromBody] BookRequest bookRequest)
         {
             if (bookRequest == null)
@@ -225,7 +235,8 @@ namespace LibraryAPI.Presentation.Controllers
         /// Sets the status of a book to inactive.
         /// </summary>
         [HttpPatch("{id}/inactive")]
-        public async Task<IActionResult> InactiveBook(long id)
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
+        public async Task<IActionResult> InActiveBook(long id)
         {
             try
             {
@@ -242,6 +253,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Sets the status of a book to active.
         /// </summary>
         [HttpPatch("{id}/active")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> ActiveBook(long id)
         {
             try
@@ -259,6 +271,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Sets the status of a book to banned.
         /// </summary>
         [HttpPatch("{id}/banned")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> BannedBook(long id)
         {
             try
@@ -276,6 +289,7 @@ namespace LibraryAPI.Presentation.Controllers
         /// Updates the cover image of a book.
         /// </summary>
         [HttpPatch("{id}/image")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> UpdateBookImage(long id, IFormFile coverImage)
         {
             if (coverImage == null)
@@ -296,13 +310,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Retrieves the image of a book by book ID.
         /// </summary>
         [HttpGet("{id}/image")]
+        [Authorize(Roles = "Member, Librarian, HeadOfLibrary")]
         public async Task<IActionResult> GetBookImage(long id)
         {
             try
             {
                 var image = await _serviceManager.BookService.GetBookImageAsync(id);
-                if (image == null)
-                    return NotFound("Image not found.");
 
                 return File(image, "image/jpeg"); // Adjust MIME type as necessary.
             }
@@ -316,8 +329,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// Updates the rating of a book.
         /// </summary>
         [HttpPut("{id}/rating")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> UpdateBookRating(long id, [FromBody] BookRatingRequest ratingRequest)
         {
+            ratingRequest.MemberId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (ratingRequest == null || string.IsNullOrEmpty(ratingRequest.MemberId))
                 return BadRequest("Invalid rating request.");
 
@@ -336,11 +352,12 @@ namespace LibraryAPI.Presentation.Controllers
         /// Updates the number of copies of a book.
         /// </summary>
         [HttpPut("{id}/copies")]
+        [Authorize(Roles = "Librarian, HeadOfLibrary")]
         public async Task<IActionResult> UpdateBookCopies(long id, [FromBody] short change)
         {
             try
             {
-                await _serviceManager.BookService.UpdateBookCopiesAsync(id, change);
+                await _serviceManager.BookCopyService.UpdateBookCopiesAsync(id, change);
                 return Ok("The book copies have been updated successfully.");
             }
             catch (Exception ex)

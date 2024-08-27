@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LibraryAPI.Entities.DTOs.AuthorDTO;
+using LibraryAPI.Entities.DTOs.BookCopyDTO;
 using LibraryAPI.Entities.DTOs.BookDTO;
 using LibraryAPI.Entities.DTOs.CategoryDTO;
 using LibraryAPI.Entities.DTOs.DepartmentDTO;
@@ -53,6 +54,15 @@ namespace LibraryAPI.Services.MappingProfiles
                     ? src.Publisher.Name
                     : string.Empty));
             CreateMap<BookRequest, Book>();
+
+            CreateMap<BookCopy, BookCopyResponse>()
+                .ForMember(dest => dest.ISBN, opt => opt.MapFrom(src => src.Book!.ISBN != null
+                    ? src.Book.ISBN
+                    : string.Empty))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Book!.Title != null
+                    ? src.Book.Title
+                    : string.Empty));
+            CreateMap<BookCopyRequest, BookCopy>();
 
             // Category mappings
             CreateMap<Category, CategoryResponse>().ReverseMap();

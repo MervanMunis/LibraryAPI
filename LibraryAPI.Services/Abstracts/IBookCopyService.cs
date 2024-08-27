@@ -8,6 +8,7 @@ namespace LibraryAPI.Services.Abstracts
         Task<IEnumerable<BookCopyResponse>> GetAllActiveBookCopiesAsync(bool trackChanges);
         Task<IEnumerable<BookCopyResponse>> GetAllInActiveBookCopiesAsync(bool trackChanges);
         Task<IEnumerable<BookCopyResponse>> GetAllBorrowedBookCopiesAsync(bool trackChanges);
-        Task AddLocationOfBookCopiesAsync(List<BookCopyRequest> bookCopyRequests);
+        Task<string> AddLocationOfBookCopiesAsync(List<BookCopyRequest> bookCopyRequests);
+        Task UpdateBookCopiesAsync(long id, short change);
     }
 }

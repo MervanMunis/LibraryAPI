@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using LibraryAPI.Entities.DTOs.BookCopyDTO;
 using LibraryAPI.Entities.Enums;
+using LibraryAPI.Entities.Models;
 using LibraryAPI.Repositories.Manager;
 using LibraryAPI.Services.Abstracts;
+using LibraryAPI.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAPI.Services.Concrete
@@ -42,7 +44,7 @@ namespace LibraryAPI.Services.Concrete
             return _mapper.Map<IEnumerable<BookCopyResponse>>(bookCopies);
         }
 
-        public async Task AddLocationOfBookCopiesAsync(List<BookCopyRequest> bookCopyRequests)
+        public async Task<string> AddLocationOfBookCopiesAsync(List<BookCopyRequest> bookCopyRequests)
         {
             var bookCopyIds = bookCopyRequests.Select(bcr => bcr.BookCopyId).ToList();
 
@@ -51,14 +53,17 @@ namespace LibraryAPI.Services.Concrete
                 .Distinct()
                 .ToList();
 
+            // Fetch all book copies in one query
             var bookCopies = await _repositoryManager.BookCopyRepository
                 .FindByCondition(bc => bookCopyIds.Contains(bc.BookCopyId), true)
                 .ToListAsync();
 
+            // Fetch all locations in one query
             var locations = await _repositoryManager.LocationRepository
                 .FindByCondition(l => locationIds.Contains(l.LocationId), false)
                 .ToDictionaryAsync(l => l.LocationId);
 
+            // Dictionary to track the number of books per location
             var booksInLocation = await _repositoryManager.BookCopyRepository
                 .FindByCondition(bc => locationIds.Contains(bc.LocationId!.Value) && bc.BookCopyStatus == Status.Active.ToString(), false)
                 .GroupBy(bc => bc.LocationId)
@@ -81,6 +86,52 @@ namespace LibraryAPI.Services.Concrete
 
                 bookCopy.LocationId = bookCopyRequest.LocationId;
                 booksInLocation[bookCopyRequest.LocationId.Value] = currentCount + 1;
+            }
+
+            try
+            {
+                await _repositoryManager.SaveAsync();
+                return "All the book copies were placed on the specified locations successfully.";
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return $"A concurrency error occurred: {ex.Message}";
+            }
+        }
+
+        public async Task UpdateBookCopiesAsync(long id, short change)
+        {
+            var book = await _repositoryManager.BookRepository.GetBookByIdAsync(id, true);
+            if (book == null)
+                throw new NotFoundException("Book not found");
+
+            var activeCopiesCount = await _repositoryManager.BookCopyRepository.FindByCondition(bc => bc.BookId == id && bc.BookCopyStatus == Status.Active.ToString(), false).CountAsync();
+
+            if (activeCopiesCount + change < 0)
+                throw new BadRequestException("Not enough copies available");
+
+            if (change > 0)
+            {
+                var newCopies = Enumerable.Range(0, change).Select(_ => new BookCopy
+                {
+                    BookId = id,
+                    BookCopyStatus = Status.Active.ToString()
+                }).ToList();
+
+                await _repositoryManager.BookCopyRepository.CreateAsync(newCopies);
+            }
+            else if (change < 0)
+            {
+                var copiesToRemove = await _repositoryManager.BookCopyRepository
+                    .FindByCondition(bc => bc.BookId == id && bc.BookCopyStatus == Status.Active.ToString(), true)
+                    .Take(Math.Abs(change))
+                    .ToListAsync();
+
+                foreach (var copy in copiesToRemove)
+                {
+                    copy.BookCopyStatus = Status.InActive.ToString();
+                    _repositoryManager.BookCopyRepository.Update(copy);
+                }
             }
 
             await _repositoryManager.SaveAsync();

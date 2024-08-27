@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\merva\\Desktop\\LibraryAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|c:\\users\\merva\\desktop\\libraryapi\\libraryapi.services\\mappingprofiles\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|solutionrelative:libraryapi.services\\mappingprofiles\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9CC62F22-E0FC-4168-A175-D2B86A422991}|LibraryAPI.Repositories\\LibraryAPI.Repositories.csproj|c:\\users\\merva\\desktop\\libraryapi\\libraryapi.repositories\\concrete\\bookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9CC62F22-E0FC-4168-A175-D2B86A422991}|LibraryAPI.Repositories\\LibraryAPI.Repositories.csproj|solutionrelative:libraryapi.repositories\\concrete\\bookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CFC33E97-1831-41DA-9809-5DB61D4B3A15}|LibraryAPI.Presentation\\LibraryAPI.Presentation.csproj|c:\\users\\merva\\desktop\\libraryapi\\libraryapi.presentation\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFC33E97-1831-41DA-9809-5DB61D4B3A15}|LibraryAPI.Presentation\\LibraryAPI.Presentation.csproj|solutionrelative:libraryapi.presentation\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|c:\\users\\merva\\desktop\\libraryapi\\libraryapi.services\\concrete\\bookmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|solutionrelative:libraryapi.services\\concrete\\bookmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|c:\\users\\merva\\desktop\\libraryapi\\libraryapi.services\\abstracts\\ibookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|solutionrelative:libraryapi.services\\abstracts\\ibookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|c:\\users\\merva\\desktop\\libraryapi\\libraryapi.services\\concrete\\bookcopymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|solutionrelative:libraryapi.services\\concrete\\bookcopymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|c:\\users\\merva\\desktop\\libraryapi\\libraryapi.services\\mappingprofiles\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FD0C9FB-7EDF-4D91-932E-B0ABB0EE9645}|LibraryAPI.Services\\LibraryAPI.Services.csproj|solutionrelative:libraryapi.services\\mappingprofiles\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BookRepository.cs",
-              "DocumentMoniker": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Repositories\\Concrete\\BookRepository.cs",
-              "RelativeDocumentMoniker": "LibraryAPI.Repositories\\Concrete\\BookRepository.cs",
-              "ToolTip": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Repositories\\Concrete\\BookRepository.cs",
-              "RelativeToolTip": "LibraryAPI.Repositories\\Concrete\\BookRepository.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAQwA8AAAAmAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "BooksController.cs",
+              "DocumentMoniker": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Presentation\\Controllers\\BooksController.cs",
+              "RelativeDocumentMoniker": "LibraryAPI.Presentation\\Controllers\\BooksController.cs",
+              "ToolTip": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Presentation\\Controllers\\BooksController.cs",
+              "RelativeToolTip": "LibraryAPI.Presentation\\Controllers\\BooksController.cs",
+              "ViewState": "AgIAADQBAAAAAAAAAAAAAD0BAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-26T21:40:33.605Z",
+              "WhenOpened": "2024-08-27T10:09:21.547Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "BookCopyManager.cs",
+              "DocumentMoniker": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\Concrete\\BookCopyManager.cs",
+              "RelativeDocumentMoniker": "LibraryAPI.Services\\Concrete\\BookCopyManager.cs",
+              "ToolTip": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\Concrete\\BookCopyManager.cs",
+              "RelativeToolTip": "LibraryAPI.Services\\Concrete\\BookCopyManager.cs",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-27T10:04:10.578Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MappingProfile.cs",
               "DocumentMoniker": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\MappingProfiles\\MappingProfile.cs",
               "RelativeDocumentMoniker": "LibraryAPI.Services\\MappingProfiles\\MappingProfile.cs",
               "ToolTip": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\MappingProfiles\\MappingProfile.cs",
               "RelativeToolTip": "LibraryAPI.Services\\MappingProfiles\\MappingProfile.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAwwC8AAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAkwEAAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-26T19:45:00.035Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "BookManager.cs",
               "DocumentMoniker": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\Concrete\\BookManager.cs",
               "RelativeDocumentMoniker": "LibraryAPI.Services\\Concrete\\BookManager.cs",
               "ToolTip": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\Concrete\\BookManager.cs",
               "RelativeToolTip": "LibraryAPI.Services\\Concrete\\BookManager.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAAwBsAAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAiwJsAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-26T19:37:43.92Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IBookService.cs",
-              "DocumentMoniker": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\Abstracts\\IBookService.cs",
-              "RelativeDocumentMoniker": "LibraryAPI.Services\\Abstracts\\IBookService.cs",
-              "ToolTip": "C:\\Users\\merva\\Desktop\\LibraryAPI\\LibraryAPI.Services\\Abstracts\\IBookService.cs",
-              "RelativeToolTip": "LibraryAPI.Services\\Abstracts\\IBookService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-26T19:37:41.205Z",
               "EditorCaption": ""
             }
           ]

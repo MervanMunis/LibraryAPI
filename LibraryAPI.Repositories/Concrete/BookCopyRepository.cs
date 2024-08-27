@@ -11,17 +11,20 @@ namespace LibraryAPI.Repositories.Concrete
 
         public async Task<IEnumerable<BookCopy>> GetAllActiveBookCopiesAsync(string active, bool trackChanges)
             => await FindByCondition(a => a.BookCopyStatus.Equals(active), trackChanges)
+            .Include(b => b.Book)
             .ToListAsync();
 
         public async Task<IEnumerable<BookCopy>> GetAllBookCopiesAsync(bool trackChanges)
-            => await FindAll(trackChanges).ToListAsync();
+            => await FindAll(trackChanges).Include(b => b.Book).ToListAsync();
 
         public async Task<IEnumerable<BookCopy>> GetAllBorrowedBookCopiesAsync(string borrowed, bool trackChanges)
             => await FindByCondition(a => a.BookCopyStatus.Equals(borrowed), trackChanges)
+            .Include(b => b.Book)
             .ToListAsync();
 
         public async Task<IEnumerable<BookCopy>> GetAllInActiveBookCopiesAsync(string inActive, bool trackChanges)
             => await FindByCondition(a => a.BookCopyStatus.Equals(inActive), trackChanges)
+            .Include(b => b.Book)
             .ToListAsync();
     }
 }
