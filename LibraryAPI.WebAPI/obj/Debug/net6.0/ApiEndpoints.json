@@ -390,7 +390,7 @@
   },
   {
     "ContainingType": "LibraryAPI.Presentation.Controllers.BooksController",
-    "Method": "InactiveBook",
+    "Method": "InActiveBook",
     "RelativePath": "api/Books/{id}/inactive",
     "HttpMethod": "PATCH",
     "IsController": true,
@@ -508,13 +508,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[LibraryAPI.Entities.DTOs.CategoryDTO.CategoryResponse, LibraryAPI.Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -565,11 +559,6 @@
         "Name": "id",
         "Type": "System.Int16",
         "IsRequired": true
-      },
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -627,11 +616,6 @@
         "Name": "id",
         "Type": "System.Int16",
         "IsRequired": true
-      },
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -705,13 +689,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[LibraryAPI.Entities.DTOs.DepartmentDTO.DepartmentResponse, LibraryAPI.Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -762,11 +740,6 @@
         "Name": "id",
         "Type": "System.Int16",
         "IsRequired": true
-      },
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -850,11 +823,6 @@
         "Name": "id",
         "Type": "System.Int16",
         "IsRequired": true
-      },
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -876,13 +844,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[LibraryAPI.Entities.DTOs.EmployeeDTO.EmployeeResponse, LibraryAPI.Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1016,11 +978,6 @@
         "Name": "idNumber",
         "Type": "System.String",
         "IsRequired": true
-      },
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -1104,13 +1061,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[LibraryAPI.Entities.DTOs.LanguageDTO.LanguageResponse, LibraryAPI.Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1161,11 +1112,6 @@
         "Name": "id",
         "Type": "System.Int16",
         "IsRequired": true
-      },
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -1223,11 +1169,6 @@
         "Name": "id",
         "Type": "System.Int16",
         "IsRequired": true
-      },
-      {
-        "Name": "trackChanges",
-        "Type": "System.Boolean",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [

@@ -23,9 +23,9 @@ namespace LibraryAPI.Presentation.Controllers
         /// <returns>A list of all departments.</returns>
         [HttpGet] // GET: api/Departments
         [Authorize(Roles = "Librarian,DepartmentHead,HeadOfLibrary")]
-        public async Task<ActionResult<IEnumerable<DepartmentResponse>>> GetDepartments(bool trackChanges = false)
+        public async Task<ActionResult<IEnumerable<DepartmentResponse>>> GetDepartments()
         {
-            var departments = await _serviceManager.DepartmentService.GetAllDepartmentsAsync(trackChanges);
+            var departments = await _serviceManager.DepartmentService.GetAllDepartmentsAsync(false);
             return Ok(departments);
         }
 
@@ -36,11 +36,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// <returns>The details of the department.</returns>
         [HttpGet("{id}")] // GET: api/Departments/5
         [Authorize(Roles = "Librarian,DepartmentHead,HeadOfLibrary")]
-        public async Task<ActionResult<DepartmentResponse>> GetDepartment(short id, bool trackChanges = false)
+        public async Task<ActionResult<DepartmentResponse>> GetDepartment(short id)
         {
             try
             {
-                var department = await _serviceManager.DepartmentService.GetDepartmentByIdAsync(id, trackChanges);
+                var department = await _serviceManager.DepartmentService.GetDepartmentByIdAsync(id, false);
                 return Ok(department);
             }
             catch (KeyNotFoundException ex)
@@ -101,11 +101,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// <returns>A list of employees in the specified department.</returns>
         [HttpGet("{id}/employees")]
         [Authorize(Roles = "Librarian,DepartmentHead,HeadOfLibrary")]
-        public async Task<ActionResult<IEnumerable<EmployeeDepartmentResponse>>> GetEmployeesByDepartmentId(short id, bool trackChanges = false)
+        public async Task<ActionResult<IEnumerable<EmployeeDepartmentResponse>>> GetEmployeesByDepartmentId(short id)
         {
             try
             {
-                var employees = await _serviceManager.DepartmentService.GetEmployeesByDepartmentIdAsync(id, trackChanges);
+                var employees = await _serviceManager.DepartmentService.GetEmployeesByDepartmentIdAsync(id, false);
                 return Ok(employees);
             }
             catch (KeyNotFoundException ex)

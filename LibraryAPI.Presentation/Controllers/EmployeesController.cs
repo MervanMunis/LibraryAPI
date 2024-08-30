@@ -23,9 +23,9 @@ namespace LibraryAPI.Presentation.Controllers
         /// </summary>
         /// <returns>A list of employee responses.</returns>
         [HttpGet] // GET: /api/Employees
-        public async Task<ActionResult<IEnumerable<EmployeeResponse>>> GetEmployees(bool trackChanges = false)
+        public async Task<ActionResult<IEnumerable<EmployeeResponse>>> GetEmployees()
         {
-            var employees = await _serviceManager.EmployeeService.GetAllEmployeesAsync(trackChanges);
+            var employees = await _serviceManager.EmployeeService.GetAllEmployeesAsync(false);
             return Ok(employees);
         }
 
@@ -35,11 +35,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// <param name="idNumber">The ID number of the employee.</param>
         /// <returns>An employee response if found, otherwise an error message.</returns>
         [HttpGet("{idNumber}")] // GET: /api/Employees/{idNumber}
-        public async Task<ActionResult<EmployeeResponse>> GetEmployee(string idNumber, bool trackChanges = false)
+        public async Task<ActionResult<EmployeeResponse>> GetEmployee(string idNumber)
         {
             try
             {
-                var employee = await _serviceManager.EmployeeService.GetEmployeeByIdNumberAsync(idNumber, trackChanges);
+                var employee = await _serviceManager.EmployeeService.GetEmployeeByIdNumberAsync(idNumber, false);
                 return Ok(employee);
             }
             catch (KeyNotFoundException ex)

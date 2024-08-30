@@ -53,6 +53,7 @@ namespace LibraryAPI.Services.Concrete
         public async Task UpdateCategoryAsync(short id, CategoryRequest categoryRequest)
         {
             var existingCategory = await _repositoryManager.CategoryRepository.GetCategoryByIdAsync(id, true);
+
             if (existingCategory == null)
                 throw new KeyNotFoundException("Category not found");
 

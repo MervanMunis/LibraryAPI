@@ -11,7 +11,7 @@ namespace LibraryAPI.Repositories.Concrete
         public LanguageRepository(RepositoryContext context) : base(context) { }
 
         public async Task<IEnumerable<Language>> GetAllLanguagesAsync(bool trackChanges) 
-            => await FindAll(trackChanges).ToListAsync();
+            => await FindAll(trackChanges).Include(n => n.Nationality).ToListAsync();
 
         public async Task<Language> GetLanguageByIdAsync(short languageId, bool trackChanges) =>
             await FindByCondition(l => l.LanguageId.Equals(languageId), trackChanges).SingleOrDefaultAsync();

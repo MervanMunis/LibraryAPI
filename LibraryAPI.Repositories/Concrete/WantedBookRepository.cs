@@ -10,7 +10,7 @@ namespace LibraryAPI.Repositories.Concrete
         public WantedBookRepository(RepositoryContext context) : base(context) { }
 
         public async Task<IEnumerable<WantedBook>> GetAllWantedBooksAsync(bool trackChanges) =>
-            await FindAll(trackChanges).ToListAsync();
+            await FindAll(trackChanges).Include(c => c.Category).Include(l => l.Language).ToListAsync();
 
         public async Task<WantedBook> GetWantedBookByIdAsync(int wantedBookId, bool trackChanges) =>
             await FindByCondition(wb => wb.WantedBookId.Equals(wantedBookId), trackChanges).SingleOrDefaultAsync();

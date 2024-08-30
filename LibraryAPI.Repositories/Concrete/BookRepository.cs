@@ -43,7 +43,8 @@ namespace LibraryAPI.Repositories.Concrete
                     .ThenInclude(bl => bl.Language)
                 .Include(b => b.AuthorBooks)!
                     .ThenInclude(ab => ab.Author)
-                .Include(b => b.Publisher);
+                .Include(b => b.Publisher)
+                .Include(bc => bc.BookCopies);
         }
     }
 }

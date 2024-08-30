@@ -1,4 +1,8 @@
-﻿namespace LibraryAPI.Entities.DTOs.MemberDTO
+﻿using LibraryAPI.Entities.DTOs.MemberAddressDTO;
+using LibraryAPI.Entities.DTOs.PublisherAddressDTO;
+using LibraryAPI.Entities.Models;
+
+namespace LibraryAPI.Entities.DTOs.MemberDTO
 {
     public class MemberResponse
     {
@@ -23,5 +27,7 @@
         public List<string>? PenaltyType { get; set; }
 
         public List<string>? LoanedBookNames { get; set; }
+
+        public List<MemberAddressResponse>? MemberAddress { get; set; }
     }
 }

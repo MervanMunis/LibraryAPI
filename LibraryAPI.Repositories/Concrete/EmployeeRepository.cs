@@ -10,9 +10,13 @@ namespace LibraryAPI.Repositories.Concrete
         public EmployeeRepository(RepositoryContext context) : base(context) { }
 
         public async Task<IEnumerable<Employee>> GetAllEmployeesAsync(bool trackChanges) =>
-            await FindAll(trackChanges).ToListAsync();
+            await FindAll(trackChanges)
+            .Include(a => a.ApplicationUser)            
+            .ToListAsync();
 
         public async Task<Employee> GetEmployeeByIdAsync(string employeeId, bool trackChanges) =>
-            await FindByCondition(e => e.EmployeeId.Equals(employeeId), trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(e => e.EmployeeId.Equals(employeeId), trackChanges)
+            .Include(a => a.ApplicationUser)
+            .FirstOrDefaultAsync();
     }
 }

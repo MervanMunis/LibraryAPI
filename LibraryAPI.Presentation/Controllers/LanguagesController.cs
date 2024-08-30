@@ -22,9 +22,9 @@ namespace LibraryAPI.Presentation.Controllers
         /// </summary>
         /// <returns>A list of active languages.</returns>
         [HttpGet] // GET: api/Languages
-        public async Task<ActionResult<IEnumerable<LanguageResponse>>> GetLanguages(bool trackChanges = false)
+        public async Task<ActionResult<IEnumerable<LanguageResponse>>> GetLanguages()
         {
-            var languages = await _serviceManager.LanguageService.GetAllLanguagesAsync(trackChanges);
+            var languages = await _serviceManager.LanguageService.GetAllLanguagesAsync(false);
             return Ok(languages);
         }
 
@@ -34,11 +34,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// <param name="id">The ID of the language.</param>
         /// <returns>The language details.</returns>
         [HttpGet("{id}")] // GET: api/Languages/{id}
-        public async Task<ActionResult<LanguageResponse>> GetLanguage(short id, bool trackChanges = false)
+        public async Task<ActionResult<LanguageResponse>> GetLanguage(short id)
         {
             try
             {
-                var language = await _serviceManager.LanguageService.GetLanguageByIdAsync(id, trackChanges);
+                var language = await _serviceManager.LanguageService.GetLanguageByIdAsync(id, false);
                 return Ok(language);
             }
             catch (KeyNotFoundException ex)
@@ -53,11 +53,11 @@ namespace LibraryAPI.Presentation.Controllers
         /// <param name="id">The ID of the language.</param>
         /// <returns>A list of books associated with the language.</returns>
         [HttpGet("{id}/books")] // GET: api/Languages/{id}/books
-        public async Task<ActionResult<IEnumerable<BookResponse>>> GetBooksByLanguage(short id, bool trackChanges = false)
+        public async Task<ActionResult<IEnumerable<BookResponse>>> GetBooksByLanguage(short id)
         {
             try
             {
-                var books = await _serviceManager.LanguageService.GetBooksByLanguageIdAsync(id, trackChanges);
+                var books = await _serviceManager.LanguageService.GetBooksByLanguageIdAsync(id, false);
                 return Ok(books);
             }
             catch (KeyNotFoundException ex)

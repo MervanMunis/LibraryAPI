@@ -68,6 +68,9 @@ namespace LibraryAPI.Services.Concrete
             if (authorRequest.DeathYear.HasValue && authorRequest.DeathYear > DateTime.Now.Year)
                 throw new BadRequestException("The author's death year cannot be in the future!");
 
+            if (authorRequest.BirthYear.HasValue && authorRequest.BirthYear < DateTime.Now.Year - 10)
+                throw new BadRequestException("The author's age cannot be smaller than 10 years!");
+
             if (await _repositoryManager.LanguageRepository.GetLanguageByIdAsync(authorRequest.LanguageId, false) == null)
                 throw new BadRequestException($"The specified LanguageId: {authorRequest.LanguageId} does not exist!");
 

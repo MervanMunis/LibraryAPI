@@ -12,10 +12,13 @@ namespace LibraryAPI.Repositories.Concrete
         }
 
         public async Task<IEnumerable<Publisher>> GetAllPublishersAsync(bool trackChanges) =>
-            await FindAll(trackChanges).ToListAsync();
+            await FindAll(trackChanges).Include(b => b.Books).Include(pa => pa.Addresses).ToListAsync();
         
 
         public async Task<Publisher> GetPublisherByIdAsync(long publisherId, bool trackChanges) =>
-            await FindByCondition(b => b.PublisherId.Equals(publisherId), trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(b => b.PublisherId.Equals(publisherId), trackChanges)
+            .Include(b => b.Books)
+            .Include(pa => pa.Addresses)
+            .SingleOrDefaultAsync();
     }
 }

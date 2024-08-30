@@ -22,9 +22,9 @@ namespace LibraryAPI.Presentation.Controllers
         /// </summary>
         /// <returns>A list of all categories.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetCategories(bool trackChanges = false)
+        public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetCategories()
         {
-            var categories = await _serviceManager.CategoryService.GetAllCategoriesAsync(trackChanges);
+            var categories = await _serviceManager.CategoryService.GetAllCategoriesAsync(false);
             return Ok(categories);
         }
 
@@ -34,9 +34,9 @@ namespace LibraryAPI.Presentation.Controllers
         /// <param name="id">The ID of the category to retrieve.</param>
         /// <returns>The details of the category.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryResponse>> GetCategory(short id, bool trackChanges = false)
+        public async Task<ActionResult<CategoryResponse>> GetCategory(short id)
         {
-            var category = await _serviceManager.CategoryService.GetCategoryByIdAsync(id, trackChanges);
+            var category = await _serviceManager.CategoryService.GetCategoryByIdAsync(id, false);
             if (category == null)
                 return NotFound($"Category with id {id} was not found.");
 
@@ -49,9 +49,9 @@ namespace LibraryAPI.Presentation.Controllers
         /// <param name="id">The ID of the category whose books to retrieve.</param>
         /// <returns>A list of books in the specified category.</returns>
         [HttpGet("{id}/books")]
-        public async Task<ActionResult<IEnumerable<CategoryBookResponse>>> GetBooksByCategory(short id, bool trackChanges = false)
+        public async Task<ActionResult<IEnumerable<CategoryBookResponse>>> GetBooksByCategory(short id)
         {
-            var books = await _serviceManager.CategoryService.GetBooksByCategoryIdAsync(id, trackChanges);
+            var books = await _serviceManager.CategoryService.GetBooksByCategoryIdAsync(id, false);
             if (books == null || !books.Any())
                 return NotFound($"No books found for category with id {id}.");
 

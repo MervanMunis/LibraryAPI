@@ -16,10 +16,11 @@ namespace LibraryAPI.Entities.Models
 
         public string? MemberStatus { get; set; }
 
-        [JsonIgnore]
         public ICollection<Penalty>? Penalty { get; set; }
 
-        [JsonIgnore]
         public ICollection<Loan>? Loans { get; set; }
+
+
+        public ICollection<MemberAddress>? MemberAddresses { get; set; }    
     }
 }
